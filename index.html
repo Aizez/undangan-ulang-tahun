@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Undangan Ulang Tahun 🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Quicksand',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    background:
+    linear-gradient(
+        135deg,
+        #ffd9ec 0%,
+        #f6e7ff 30%,
+        #dff7ff 60%,
+        #e5ffe9 100%
+    );
+}
+
+.container{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.card{
+    position:relative;
+    max-width:700px;
+    width:100%;
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(12px);
+    border-radius:35px;
+    padding:50px 35px;
+    text-align:center;
+    box-shadow:
+    0 15px 50px rgba(0,0,0,.08);
+}
+
+.badge{
+    display:inline-block;
+    background:#fff;
+    padding:10px 20px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:700;
+    color:#ff6ba0;
+    margin-bottom:20px;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+.guest{
+    color:#ff4f91;
+    font-weight:700;
+}
+
+.subtitle{
+    font-size:1.15rem;
+    color:#555;
+    line-height:1.8;
+}
+
+.cake{
+    font-size:90px;
+    margin:25px 0;
+}
+
+.info{
+    margin-top:30px;
+    background:white;
+    padding:25px;
+    border-radius:25px;
+}
+
+.info-item{
+    margin:12px 0;
+    font-size:18px;
+}
+
+.activities{
+    margin-top:25px;
+}
+
+.activities span{
+    display:inline-block;
+    margin:8px;
+    padding:10px 15px;
+    background:#fff;
+    border-radius:999px;
+}
+
+.buttons{
+    margin-top:30px;
+}
+
+.btn{
+    display:inline-block;
+    padding:15px 28px;
+    margin:8px;
+    text-decoration:none;
+    border-radius:999px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+.whatsapp{
+    background:#25D366;
+    color:white;
+}
+
+.music{
+    background:#ff82b4;
+    color:white;
+}
+
+.footer{
+    margin-top:25px;
+    color:#666;
+}
+
+.balloon{
+    position:fixed;
+    bottom:-150px;
+    font-size:45px;
+    animation:float 18s linear infinite;
+    opacity:.7;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(-130vh);
+    }
+}
+
+.b1{left:5%;animation-delay:0s;}
+.b2{left:25%;animation-delay:4s;}
+.b3{left:50%;animation-delay:8s;}
+.b4{left:75%;animation-delay:2s;}
+.b5{left:90%;animation-delay:6s;}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+@media(max-width:768px){
+
+    h1{
+        font-size:2.2rem;
+    }
+
+    .card{
+        padding:35px 20px;
+    }
+
+    .cake{
+        font-size:70px;
+    }
+
+    .info-item{
+        font-size:16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="balloon b1">🎈</div>
+<div class="balloon b2">🎀</div>
+<div class="balloon b3">🎈</div>
+<div class="balloon b4">🧸</div>
+<div class="balloon b5">🎈</div>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+
+<div class="card">
+
+<div class="badge">
+🎉 YOU ARE INVITED 🎉
+</div>
+
+<h1>🎂 Birthday Party 🎂</h1>
+
+<p class="subtitle">
+Hai <span class="guest" id="guestName">Teman Istimewa</span> 💖
+</p>
+
+<p class="subtitle" style="margin-top:15px;">
+Aku mengundangmu untuk merayakan hari spesialku bersama!
+</p>
+
+<div class="cake">
+🧸🎂🎈
+</div>
+
+<div class="info">
+
+<div class="info-item">
+📅 <b>Sabtu, 20 Juni 2026</b>
+</div>
+
+<div class="info-item">
+⏰ <b>14.00 WIB</b>
+</div>
+
+<div class="info-item">
+📍 <b>Rumah Ceria</b><br>
+Jl. Bahagia No. 123
+</div>
+
+</div>
+
+<div class="footer">
+💖 Kehadiranmu akan membuat hari spesial ini semakin berkesan 💖
+</div>
+
+</div>
+
+</div>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// Nama tamu dari URL
+const params = new URLSearchParams(window.location.search);
+const guest = params.get('to');
+
+if(guest){
+    document.getElementById('guestName').innerText = guest;
+}
+
+// Music
+const music = document.getElementById('music');
+
+function toggleMusic(){
+
+    if(music.paused){
+        music.play();
+    }else{
+        music.pause();
+    }
+}
+
+// Confetti
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let pieces = [];
+
+for(let i=0;i<150;i++){
+
+    pieces.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*6+2,
+        d:Math.random()*150
+    });
+
+}
+
+function draw(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    pieces.forEach((p,index)=>{
+
+        ctx.beginPath();
+
+        const colors=[
+            "#ff8db6",
+            "#ffd166",
+            "#caffbf",
+            "#9bf6ff",
+            "#bdb2ff"
+        ];
+
+        ctx.fillStyle=
+        colors[index%colors.length];
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.r,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    });
+
+    update();
+}
+
+let angle=0;
+
+function update(){
+
+    angle+=0.01;
+
+    pieces.forEach((p)=>{
+
+        p.y += Math.cos(angle+p.d)+1+ p.r/2;
+
+        p.x += Math.sin(angle);
+
+        if(p.y > canvas.height){
+
+            p.y=-10;
+            p.x=Math.random()*canvas.width;
+        }
+    });
+}
+
+setInterval(draw,20);
+
+window.addEventListener("resize",()=>{
+
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+});
+
+</script>
+
+</body>
+</html>
