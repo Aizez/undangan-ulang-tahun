@@ -196,6 +196,49 @@ canvas{
     }
 }
 
+.rsvp-section{
+    margin-top:60px;
+    background:white;
+    padding:30px;
+    border-radius:25px;
+}
+
+.rsvp-section h2{
+    color:#ff5b9d;
+    margin-bottom:15px;
+}
+
+.rsvp-section input,
+.rsvp-section select,
+.rsvp-section textarea{
+    width:100%;
+    padding:15px;
+    margin-top:12px;
+    border:2px solid #f0d7e8;
+    border-radius:15px;
+    font-family:inherit;
+    font-size:15px;
+}
+
+.rsvp-section button{
+    margin-top:15px;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    background:#ff82b4;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#successMessage{
+    margin-top:15px;
+    color:#32a852;
+    font-weight:bold;
+}
+
 #coverScreen{position:fixed;inset:0;background:linear-gradient(135deg,#ffd6e7,#e6d6ff,#d8f3ff);display:flex;justify-content:center;align-items:center;z-index:9999}
 .envelope{position:relative;width:620px;height:420px;cursor:pointer}
 .envelope-back{position:absolute;width:100%;height:100%;background:#ffb6d5;border-radius:12px}
@@ -274,8 +317,42 @@ To my dearest <span class="guest" id="guestName">Teman Istimewa</span> 💖
 
 </div>
 
-<p class="subtitle" style="margin-top: 50px;">There will be not any present or whatsoever necessary,</p>
+<p class="subtitle" style="margin-top: 30px;">There will be not any present or whatsoever necessary,</p>
 <p class="subtitle">except your presence in this sacred moment.</p>
+
+<div class="rsvp-section" style="margin-top: 60px;">
+
+    <p class="subtitle2">
+        Please confirm your attendance.
+    </p>
+
+    <form id="rsvpForm">
+
+        <input
+            type="text"
+            id="nama"
+            readonly>
+
+        <select id="kehadiran" required>
+            <option value="">Select Attendance</option>
+            <option value="Hadir">✨ Will Attend</option>
+            <option value="Tidak Hadir">😢 Cannot Attend</option>
+        </select>
+
+        <textarea
+            id="pesan"
+            rows="4"
+            placeholder="Leave a message..."></textarea>
+
+        <button type="submit">
+            Send Confirmation 💌
+        </button>
+
+    </form>
+
+    <div id="successMessage"></div>
+
+</div>
 
 <div class="subtitle2" style="margin-top: 60px;">
  With Love <br> 💖 Dwi Putriana💖
@@ -305,10 +382,14 @@ function openInvitation(){
 
 // Nama tamu dari URL
 const params = new URLSearchParams(window.location.search);
-const guest = params.get('to');
+const guest = params.get('to') || 'Special Guest';
 
-if(guest){
-    document.getElementById('guestName').innerText = guest;
+document.getElementById('guestName').innerText = guest;
+
+const namaField = document.getElementById('nama');
+
+if(namaField){
+    namaField.value = guest;
 }
 
 // Music
@@ -389,7 +470,7 @@ function update(){
 if(p.vx!==undefined){
  p.x+=p.vx;
  p.y+=p.vy;
- p.vy+=0.012;
+ p.vy+=0.005;
 }else{
  p.y += Math.cos(angle+p.d)+1+ p.r/2;
  
@@ -412,6 +493,73 @@ window.addEventListener("resize",()=>{
 
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
+
+});
+
+document
+.getElementById("rsvpForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const nama =
+        document.getElementById("nama").value;
+
+    const kehadiran =
+        document.getElementById("kehadiran").value;
+
+    const pesan =
+        document.getElementById("pesan").value;
+
+    const formData = new FormData();
+
+    formData.append(
+        "entry.25629740",
+        nama
+    );
+
+    formData.append(
+        "entry.143414288",
+        kehadiran
+    );
+
+    formData.append(
+        "entry.1671146552",
+        pesan
+    );
+
+    try{
+
+        await fetch(
+            "https://docs.google.com/forms/d/e/1FAIpQLSe2NDdhDpBpRNclQF24oJYCpLQT9DZEB3XNReUu9BVKDmma7w/formResponse",
+            {
+                method:"POST",
+                mode:"no-cors",
+                body:formData
+            }
+        );
+
+        document
+        .getElementById("successMessage")
+        .innerHTML =
+        "💖 Thank you, your confirmation has been recorded.";
+
+        document
+        .getElementById("pesan")
+        .value = "";
+
+        document
+        .getElementById("kehadiran")
+        .selectedIndex = 0;
+
+    }catch(error){
+
+        document
+        .getElementById("successMessage")
+        .innerHTML =
+        "❌ Failed to send confirmation.";
+
+    }
 
 });
 
