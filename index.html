@@ -74,8 +74,14 @@ h1{
 
 .subtitle{
     font-size:1.15rem;
-    color:#555;
-    line-height:1.8;
+    color:#3a3a3a;
+    line-height:1.4;
+}
+
+.subtitle2{
+    font-size:1.7rem;
+    color:#2d2d2d;
+    line-height:1.2;
 }
 
 .cake{
@@ -91,8 +97,9 @@ h1{
 }
 
 .info-item{
-    margin:12px 0;
+    margin:10px 0;
     font-size:18px;
+    
 }
 
 .activities{
@@ -209,7 +216,7 @@ canvas{
 <div class="envelope-back"></div>
 <div class="envelope-flap"></div>
 <div class="letter">
-<h3>💖 You're Invited 💖</h3>
+<h1>💖 You're Invited 💖</h1>
 <p>Klik untuk membuka undangan</p>
 </div>
 </div>
@@ -234,37 +241,44 @@ canvas{
 
 <h1>🎂 Birthday Party 🎂</h1>
 
-<p class="subtitle">
-Hai <span class="guest" id="guestName">Teman Istimewa</span> 💖
+<p class="subtitle2" style="margin-top: 30px;">
+To my dearest <span class="guest" id="guestName">Teman Istimewa</span> 💖
 </p>
 
-<p class="subtitle" style="margin-top:15px;">
-Aku mengundangmu untuk merayakan hari spesialku bersama!
-</p>
+<p class="subtitle" style="margin-top:50px;">It has been a wonderful journey to reach with you all this long.</p>
+<p class="subtitle">I would like to spend more quality time with my special ones,</p>
+<p class="subtitle">and you are one of them.</p>
 
-<div class="cake">
+<div class="cake" style="margin-top: 50px;">
 🧸🎂🎈
 </div>
 
 <div class="info">
+<p class="subtitle" style="margin-top:25px;">Therefore a fine dinner will be held at:</p>
 
 <div class="info-item">
-📅 <b>Sabtu, 20 Juni 2026</b>
-</div>
-
-<div class="info-item">
-⏰ <b>14.00 WIB</b>
+📅 <b>Wednesday, 17th june 2026</b>
 </div>
 
 <div class="info-item">
-📍 <b>Rumah Ceria</b><br>
-Jl. Bahagia No. 123
+⏰ <b>18.00 WIB</b>
+</div>
+
+<div class="info-item">
+📍 <b>Pulle TMII</b>
+</div>
+
+<div class="info-item">
+👗<b>Dress Code "Black"</b><br>
 </div>
 
 </div>
 
-<div class="footer">
-💖 Kehadiranmu akan membuat hari spesial ini semakin berkesan 💖
+<p class="subtitle" style="margin-top: 50px;">There will be not any present or whatsoever necessary,</p>
+<p class="subtitle">except your presence in this sacred moment.</p>
+
+<div class="subtitle2" style="margin-top: 60px;">
+ With Love <br> 💖 Dwi Putriana💖
 </div>
 
 </div>
@@ -379,10 +393,16 @@ if(p.vx!==undefined){
 }else{
  p.y += Math.cos(angle+p.d)+1+ p.r/2;
  
-}if(p.y > canvas.height){
-    p.y=-10;
-    p.x=Math.random()*canvas.width;
-    }
+}
+
+
+        
+
+        if(p.y > canvas.height){
+
+            p.y=-10;
+            p.x=Math.random()*canvas.width;
+        }
     });
 }
 
