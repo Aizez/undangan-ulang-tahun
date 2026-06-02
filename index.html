@@ -188,10 +188,33 @@ canvas{
         font-size:16px;
     }
 }
+
+#coverScreen{position:fixed;inset:0;background:linear-gradient(135deg,#ffd6e7,#e6d6ff,#d8f3ff);display:flex;justify-content:center;align-items:center;z-index:9999}
+.envelope{position:relative;width:620px;height:420px;cursor:pointer}
+.envelope-back{position:absolute;width:100%;height:100%;background:#ffb6d5;border-radius:12px}
+.envelope-flap{position:absolute;width:100%;height:120px;background:#ff9fc8;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:1s;z-index:5}
+.letter{position:absolute;left:5%;top:20px;width:90%;height:350px;background:#fff;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:1s;z-index:2}
+.open .envelope-flap{transform:rotateX(180deg)}
+.open .letter{transform:translateY(-120px)}
+.fadeOut{animation:fadeOut 1s forwards}
+@keyframes fadeOut{to{opacity:0;visibility:hidden}}
+
 </style>
 </head>
 
 <body>
+
+<div id="coverScreen">
+<div class="envelope" onclick="openInvitation()">
+<div class="envelope-back"></div>
+<div class="envelope-flap"></div>
+<div class="letter">
+<h3>💖 You're Invited 💖</h3>
+<p>Klik untuk membuka undangan</p>
+</div>
+</div>
+</div>
+
 
 <div class="balloon b1">🎈</div>
 <div class="balloon b2">🎀</div>
@@ -253,6 +276,18 @@ Jl. Bahagia No. 123
 </audio>
 
 <script>
+
+
+function openInvitation(){
+ const cover=document.getElementById('coverScreen');
+ const env=document.querySelector('.envelope');
+ env.classList.add('open');
+ music.play().catch(()=>{});
+ for(let i=0;i<250;i++){
+   pieces.push({x:window.innerWidth/2,y:window.innerHeight/2,r:Math.random()*6+2,d:Math.random()*150,vx:(Math.random()-0.5)*14,vy:(Math.random()-0.5)*14});
+ }
+ setTimeout(()=>cover.classList.add('fadeOut'),1200);
+}
 
 // Nama tamu dari URL
 const params = new URLSearchParams(window.location.search);
@@ -336,15 +371,18 @@ function update(){
 
     pieces.forEach((p)=>{
 
-        p.y += Math.cos(angle+p.d)+1+ p.r/2;
-
-        p.x += Math.sin(angle);
-
-        if(p.y > canvas.height){
-
-            p.y=-10;
-            p.x=Math.random()*canvas.width;
-        }
+        
+if(p.vx!==undefined){
+ p.x+=p.vx;
+ p.y+=p.vy;
+ p.vy+=0.012;
+}else{
+ p.y += Math.cos(angle+p.d)+1+ p.r/2;
+ 
+}if(p.y > canvas.height){
+    p.y=-10;
+    p.x=Math.random()*canvas.width;
+    }
     });
 }
 
